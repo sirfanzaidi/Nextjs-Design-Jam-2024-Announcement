@@ -8,9 +8,17 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
+      fontFamily: {
+        integral: ['"IntegralCF"', 'sans-serif'],
+        Satoshi: ['"Satoshi"'],
+      },
+     colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        yellow: {
+          500: "#FBBF24",
+        },
+            
       },
     },
   },

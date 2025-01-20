@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlineAccountCircle } from "react-icons/md";

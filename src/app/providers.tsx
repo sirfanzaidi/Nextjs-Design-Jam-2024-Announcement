@@ -1,32 +1,19 @@
-"use client";
-
-import React from "react";
+"use client"
 import { Provider } from "react-redux";
-import { makeStore } from "../lib/store";
+import { store } from "../app/Redux/store";
 import { PersistGate } from "redux-persist/integration/react";
-import SpinnerbLoader from "@/app/components/ui/SpinnerbLoader";
+import { persistStore } from "redux-persist";
 
-type Props = {
-  children: React.ReactNode;
-};
 
-const Providers = ({ children }: Props) => {
-  const { store, persistor } = makeStore();
-
+function Providers({ children,}: Readonly<{children: React.ReactNode;}>) {
+  let persistore = persistStore(store)
   return (
     <Provider store={store}>
-      <PersistGate
-        loading={
-          <div className="flex items-center justify-center h-96">
-            <SpinnerbLoader className="w-10 border-2 border-gray-300 border-r-gray-600" />
-          </div>
-        }
-        persistor={persistor}
-      >
+      <PersistGate persistor={persistore}>
         {children}
-      </PersistGate>
-    </Provider>
-  );
-};
+        </PersistGate>
+    </Provider> 
+  )
+}
 
-export default Providers;
+export default Providers

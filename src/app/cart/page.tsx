@@ -1,123 +1,75 @@
-"use client";
-
-import BreadcrumbCart from "@/app/components/cart-page/BreadcrumbCart";
-import ProductCard from "@/app/components/cart-page/ProductCard";
-import { Button } from "@/app/components/ui/button";
-import InputGroup from "@/app/components/ui/input-group";
-import { cn } from "@/lib/utils";
-import { integralCF } from "@/styles/fonts";
-import { FaArrowRight } from "react-icons/fa";
-import { MdOutlineLocalOffer } from "react-icons/md";
-import { TbBasketExclamation } from "react-icons/tb";
+"use client"
+import { Button } from "@/components/ui/button";
+import { Minus, Plus } from "lucide-react";
 import React from "react";
-import { RootState } from "@/lib/store";
-import { useAppSelector } from "@/lib/hooks/redux";
-import Link from "next/link";
+import { MdDelete } from "react-icons/md";
+import Cartpage from "./cartpage";
+import { useSelector } from "react-redux";
+import { BreadcrumbCollapsed } from "@/components/Breadcrupm";
 
-export default function CartPage() {
-  const { cart, totalPrice, adjustedTotalPrice } = useAppSelector(
-    (state: RootState) => state.carts
-  );
+const Page = () => {
+  interface CartItem {
+    price: number;
+    discount: number;
+    qty: number;
+  }
+  
+  const cartArray: CartItem[] = useSelector((state: { cart: CartItem[] }) => state.cart);
+  
+  const total = cartArray.reduce((total: number, arr: CartItem) => {
+    const discountedPrice = arr.discount > 0 ? arr.price - (arr.price * arr.discount) / 100 : arr.price;
+    return total + discountedPrice * arr.qty;
+  }, 0);
+  
+    
 
   return (
-    <main className="pb-20">
-      <div className="max-w-frame mx-auto px-4 xl:px-0">
-        {cart && cart.items.length > 0 ? (
-          <>
-            <BreadcrumbCart />
-            <h2
-              className={cn([
-                integralCF.className,
-                "font-bold text-[32px] md:text-[40px] text-black uppercase mb-5 md:mb-6",
-              ])}
-            >
-              your cart
-            </h2>
-            <div className="flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-5 items-start">
-              <div className="w-full p-3.5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
-                {cart?.items.map((product, idx, arr) => (
-                  <React.Fragment key={idx}>
-                    <ProductCard data={product} />
-                    {arr.length - 1 !== idx && (
-                      <hr className="border-t-black/10" />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-              <div className="w-full lg:max-w-[505px] p-5 md:px-6 flex-col space-y-4 md:space-y-6 rounded-[20px] border border-black/10">
-                <h6 className="text-xl md:text-2xl font-bold text-black">
-                  Order Summary
-                </h6>
-                <div className="flex flex-col space-y-5">
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">Subtotal</span>
-                    <span className="md:text-xl font-bold">${totalPrice}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
-                      Discount (-
-                      {Math.round(
-                        ((totalPrice - adjustedTotalPrice) / totalPrice) * 100
-                      )}
-                      %)
-                    </span>
-                    <span className="md:text-xl font-bold text-red-600">
-                      -${Math.round(totalPrice - adjustedTotalPrice)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black/60">
-                      Delivery Fee
-                    </span>
-                    <span className="md:text-xl font-bold">Free</span>
-                  </div>
-                  <hr className="border-t-black/10" />
-                  <div className="flex items-center justify-between">
-                    <span className="md:text-xl text-black">Total</span>
-                    <span className="text-xl md:text-2xl font-bold">
-                      ${Math.round(adjustedTotalPrice)}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex space-x-3">
-                  <InputGroup className="bg-[#F0F0F0]">
-                    <InputGroup.Text>
-                      <MdOutlineLocalOffer className="text-black/40 text-2xl" />
-                    </InputGroup.Text>
-                    <InputGroup.Input
-                      type="text"
-                      name="code"
-                      placeholder="Add promo code"
-                      className="bg-transparent placeholder:text-black/40"
-                    />
-                  </InputGroup>
-                  <Button
-                    type="button"
-                    className="bg-black rounded-full w-full max-w-[119px] h-[48px]"
-                  >
-                    Apply
-                  </Button>
-                </div>
-                <Button
-                  type="button"
-                  className="text-sm md:text-base font-medium bg-black rounded-full w-full py-4 h-[54px] md:h-[60px] group"
-                >
-                  Go to Checkout{" "}
-                  <FaArrowRight className="text-xl ml-2 group-hover:translate-x-1 transition-all" />
-                </Button>
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex items-center flex-col text-gray-300 mt-32">
-            <TbBasketExclamation strokeWidth={1} className="text-6xl" />
-            <span className="block mb-4">Your shopping cart is empty.</span>
-            <Button className="rounded-full w-24" asChild>
-              <Link href="/shop">Shop</Link>
-            </Button>
+       <>
+       <div className=" max-w-screen-2xl   mx-auto  mt-36">
+         <BreadcrumbCollapsed/>
+    <div className="flex flex-col justify-center items-center relative"> 
+        
+    <div className="w-[95%] max-w-[1200px]  ">
+    </div>
+  
+          <div className=" sm:w-full  flex flex-col lg:flex-row justify-center items-start gap-6 p-5">
+                  <Cartpage/>
+                  {/* right */}
+                    {/* Order Summary */}
+                         <div className="bg-white p-4 w-full lg:w-[500px] border rounded-[20px]">
+                             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+                             <div className="space-y-2">
+                               <div className="flex justify-between">
+                                 <p>Subtotal</p>
+                                 <p>${total}</p>
+                               </div>
+                               <div className="flex justify-between">
+                                 <p>Discount (-20%)</p>
+                                 <p>-${0}</p>
+                               </div>
+                               <div className="flex justify-between">
+                                 <p>Delivery Fee</p>
+                                 <p>${0}</p>
+                               </div>
+                               <div className="border-t pt-2 flex justify-between font-bold">
+                                 <p>Total</p>
+                                 <p>${total}</p>
+                               </div>
+                               <div className="flex justify-between items-center">
+                                <input className="h-10 rounded-[6px] bg-[#F0F0F0] px-4 w-[200px] md:w-[360px] border-none" type="search" placeholder="Add promo code" />
+                                <Button className="w-[100px] rounded-[20px]">Apply</Button>
+                               </div>
+                             </div>
+                             <button className="w-full mt-4 bg-black text-white py-2 rounded-md">
+                               Go to Checkout
+                             </button>
+                         </div>
           </div>
-        )}
-      </div>
-    </main>
-  );
+          </div>
+          </div>
+          </>
+      
+  )
 }
+
+export default Page;

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -45,15 +45,25 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const searchParams = useSearchParams();
-  
+
+  // Use a state to track whether the component has mounted (client-side)
+  const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
-    const search = searchParams.get('search');
-    if (search) {
-      setSearchQuery(search);
+    setHasMounted(true);
+  }, []);
+
+  // Use `useSearchParams` only after the component has mounted
+  const searchParams = hasMounted ? useSearchParams() : null;
+
+  useEffect(() => {
+    if (hasMounted && searchParams) {
+      const search = searchParams.get('search');
+      if (search) {
+        setSearchQuery(search);
+      }
     }
-  }, [searchParams]);
+  }, [hasMounted, searchParams]);
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
@@ -92,4 +102,4 @@ export function useFilter() {
     throw new Error('useFilter must be used within a FilterProvider');
   }
   return context;
-} 
+}

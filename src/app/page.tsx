@@ -6,7 +6,7 @@ import Reviews from "@/components/homepage/Reviews/page";
 import { Product } from "@/types/product.types";
 import { Review } from "@/types/review.types";
 import { client } from "@/sanity/lib/client";
-import { reviewsData } from "@/data/reviews"; // Import reviewsData
+import { reviewsData } from '@/data/reviews'; // Correct import path
 
 async function getNewArrivals() {
   try {

@@ -19,12 +19,12 @@ const AddToCartBtn = ({ data }: { data: Product & { quantity: number } }) => {
       onClick={() =>
         dispatch(
           addToCart({
-            id: data.id,
+            id: Number(data.id),
             name: data.name,
             image: data.image,
             price: data.price,
             attributes: [sizeSelection, colorSelection.name],
-            discount: data.discount,
+            discount: data.discount || { amount: 0, percentage: 0 },
             quantity: data.quantity,
           })
         )

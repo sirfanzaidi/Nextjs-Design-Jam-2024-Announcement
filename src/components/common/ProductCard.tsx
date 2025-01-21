@@ -33,18 +33,18 @@ const ProductCard = ({ data }: ProductCardProps) => {
       )}
       <div className="flex items-end mb-1 xl:mb-2">
         <p className="text-lg sm:text-xl font-bold font-sora">
-          ${data.price - (data.price * (data.discountPercent ?? 0)) / 100}
+          ${data.price - (data.price * (data.discount?.percentage ?? 0)) / 100}
         </p>
-        {data.discountPercent && data.discountPercent > 0 && (
+        {data.discount?.percentage && data.discount.percentage > 0 && (
           <p className="text-neutral-400 line-through text-sm ml-2">
             ${data.price}
           </p>
         )}
       </div>
       <div className="flex items-center space-x-[5px] xl:space-x-2.5">
-        {data.discountPercent && data.discountPercent > 0 && (
+        {data.discount?.percentage && data.discount.percentage > 0 && (
           <span className="font-medium text-[10px] xl:text-xs py-1.5 px-3.5 rounded-full bg-[#FF3333]/10 text-[#FF3333] group-hover:bg-[#FF3333] group-hover:text-white transition-all duration-300">
-            {`-${data.discountPercent}%`}
+            {`-${data.discount.percentage}%`}
           </span>
         )}
       </div>

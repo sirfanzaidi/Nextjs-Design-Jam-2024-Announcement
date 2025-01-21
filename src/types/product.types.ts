@@ -5,7 +5,7 @@ export type Discount = {
 
 export type Product = {
   id: string;
-  discountPercent?: number;
+  discount?: Discount;
   category?: string;
   price: number;
   sizes: string[];

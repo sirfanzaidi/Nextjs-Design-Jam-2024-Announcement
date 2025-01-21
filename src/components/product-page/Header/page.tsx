@@ -25,9 +25,9 @@ const Header = ({ data }: { data: Product }) => {
           </h1>
           <div className="flex items-center mb-3 sm:mb-3.5">
             <p className="text-xl sm:text-2xl font-semibold">
-              ${data.price - (data.price * (data.discountPercent || 0)) / 100}
+            ${data.price - (data.price * (data.discount?.percentage || 0)) / 100}
             </p>
-            {(data.discountPercent || 0) > 0 && (
+            {(data.discount?.percentage || 0) > 0 && (
               <p className="text-neutral-400 line-through text-lg sm:text-xl ml-2">
                 ${data.price}
               </p>

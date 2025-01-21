@@ -46,6 +46,9 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Always call `useSearchParams` (React Hook rules)
+  const searchParams = useSearchParams();
+
   // Use a state to track whether the component has mounted (client-side)
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -53,9 +56,7 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
     setHasMounted(true);
   }, []);
 
-  // Use `useSearchParams` only after the component has mounted
-  const searchParams = hasMounted ? useSearchParams() : null;
-
+  // Update `searchQuery` only after the component has mounted
   useEffect(() => {
     if (hasMounted && searchParams) {
       const search = searchParams.get('search');
